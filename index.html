@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🐈‍⬛ Pixel Cat Coffee Invite</title>
+  <style>
+    :root{
+      --bg:#0e0f13;      /* deep space */
+      --panel:#171923;   /* card */
+      --ink:#e6e6f0;     /* text */
+      --accent:#71f5a0;  /* minty */
+      --accent2:#7cc7ff; /* sky */
+      --danger:#ff6b6b;  /* pop */
+    }
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      display:grid; place-items:center; image-rendering: pixelated;
+    }
+    .wrap{ width:min(920px, 96vw); }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)), var(--panel);
+      border:2px solid #2a2e3f; border-radius:22px; padding:22px; box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+    header{display:flex; align-items:center; gap:14px; margin-bottom:10px}
+    .title{font-size:clamp(20px, 2.8vw, 32px); letter-spacing:1px}
+    .sub{opacity:.8; font-size:14px}
+
+    .grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); margin-top:14px}
+    .q{background:#121420; border:2px solid #282c3f; border-radius:16px; padding:14px; position:relative; overflow:hidden}
+    .q h3{margin:0 0 8px 0; font-size:16px}
+    .answers{display:flex; gap:10px; flex-wrap:wrap}
+    .pixel-btn{cursor:pointer; border:2px solid #2b2f47; background:#0f1120; color:var(--ink);
+      padding:10px 14px; border-radius:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+      box-shadow: inset -4px -4px 0 0 #070813, inset 4px 4px 0 0 #1b1e2e; transition: transform .05s ease-in;
+    }
+    .pixel-btn:active{ transform: translateY(2px); }
+    .pixel-btn[data-yes="true"]{ border-color:#2d5c49; background:#0d1a18; box-shadow: inset -4px -4px 0 0 #07120f, inset 4px 4px 0 0 #17352d; }
+    .pixel-btn[data-no="true"]{ border-color:#5c2d2d; background:#1a0d0d; box-shadow: inset -4px -4px 0 0 #120707, inset 4px 4px 0 0 #351717; }
+
+    .progress{height:14px; background:#10121b; border:2px solid #2a2e3f; border-radius:999px; overflow:hidden; margin:16px 0}
+    .bar{height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent2)); transition:width .35s ease}
+
+    .footer{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap}
+
+    .cta{display:none}
+    .cta.show{display:flex; gap:10px; align-items:center}
+    .cta a{ text-decoration:none }
+    .primary{
+      background:var(--accent); color:#062013; border:0; padding:12px 16px; border-radius:14px; font-weight:900; letter-spacing:.8px;
+      box-shadow: 0 8px 0 #40a96d; transform: translateY(0); transition: transform .08s ease-in, box-shadow .08s ease-in;
+    }
+    .primary:active{ transform: translateY(3px); box-shadow: 0 5px 0 #2d8252; }
+
+    /* Pixel cats area */
+    .cats{ display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:16px; margin:14px 0 }
+    .cat-card{ background:#0f1120; border:2px solid #282c3f; border-radius:16px; padding:10px; display:grid; place-items:center }
+    .cat-label{ font-size:12px; opacity:.8; margin-top:6px }
+
+    /* Retro scanlines for fun vibes */
+    .scanlines::after{
+      content:""; pointer-events:none; position:absolute; inset:0; background: repeating-linear-gradient( to bottom, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, transparent 1px, transparent 3px ); mix-blend-mode:overlay; border-radius:inherit
+    }
+    .q.scanlines{ position:relative }
+
+    .hint{font-size:12px; opacity:.7}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true">
+          <use href="#cat1" />
+        </svg>
+        <div>
+          <div class="title">Pa da se zvanično dogovorimo: kafa? ☕</div>
+          <div class="sub">Ne bih da pravim tenziju ali mislim da te Beba i Frenči gledaju šta biraš.</div>
+        </div>
+      </header>
+
+      <div class="progress" aria-label="Napredak">
+        <div class="bar" id="bar"></div>
+      </div>
+
+      <section class="grid" id="quiz">
+        <article class="q scanlines" data-q="1">
+          <h3>1) Kolika je šansa da se kafa zapravo pretvori u Guaranu?</h3>
+          <div class="answers">
+            <button class="pixel-btn" data-answer="yes">Velika</button>
+            <button class="pixel-btn" data-answer="no">Abnormalno mala</button>
+          </div>
+          <div class="cats">
+            <div class="cat-card">
+              <svg width="88" height="88" viewBox="0 0 32 32" role="img" aria-label="Crna mačka">
+                <use href="#cat1" />
+              </svg>
+              <div class="cat-label">Beba</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="q scanlines" data-q="2">
+          <h3>2) Ko bi pre yappovao sa nama da moze:</h3>
+          <div class="answers">
+            <button class="pixel-btn" data-answer="yes">Beba</button>
+            <button class="pixel-btn" data-answer="yes">Frenči</button>
+            <button class="pixel-btn" data-answer="no">Ne mogu da izaberem</button>
+          </div>
+          <div class="cats">
+            <div class="cat-card">
+              <svg width="88" height="88" viewBox="0 0 32 32" role="img" aria-label="Crna mačka">
+                <use href="#cat2" />
+              </svg>
+              <div class="cat-label">Frenči</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="q scanlines" data-q="3">
+          <h3>3) Kada ti najviše odgovara?</h3>
+          <div class="answers">
+            <button class="pixel-btn" data-answer="yes">Radnim danom</button>
+            <button class="pixel-btn" data-answer="yes">Vikendom</button>
+            <button class="pixel-btn" data-answer="yes">Fleksibilno</button>
+          </div>
+          <div class="hint">Kad završiš, otkriće se tajni link 🗝️</div>
+        </article>
+      </section>
+
+      <div class="footer">
+        <div id="status">Odgovoreno: <strong id="count">0</strong>/3</div>
+        <div class="cta" id="cta">
+          <a id="calendly" class="primary" href="#" target="_blank" rel="noopener">📅 Zakaži kafu</a>
+          <span class="hint">Beba i Frenči odobravaju tvoj izbor.</span>
+        </div>
+      </div>
+    </div>
+
+
+  <!-- Inline SVG sprites for pixel-art black cats -->
+  <svg width="0" height="0" style="position:absolute">
+    <!-- Cat 1: sitting -->
+    <!-- 🐱 Crna mačka (Beba) -->
+<!-- 🐱 Crna mačka (sa njuškom, ustima, brkovima i repom) -->
+<symbol id="cat1" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <!-- Uši -->
+  <rect x="8" y="4" width="4" height="5" fill="#222"/>
+  <rect x="20" y="4" width="4" height="5" fill="#222"/>
+
+  <!-- Glava -->
+  <rect x="9" y="8" width="14" height="10" fill="#333"/>
+
+  <!-- Oči -->
+  <rect x="11" y="12" width="2" height="2" fill="#ffd93b"/>
+  <rect x="19" y="12" width="2" height="2" fill="#ffd93b"/>
+
+  <!-- Njuška (svetlija siva) -->
+  <rect x="13" y="15" width="6" height="3" fill="#555"/>
+  <!-- Nos -->
+  <rect x="15" y="15" width="2" height="2" fill="#000"/>
+  <!-- Usta -->
+  <rect x="15" y="17" width="2" height="1" fill="#000"/>
+
+  <!-- Brkovi -->
+  <rect x="9"  y="16" width="3" height="1" fill="#777"/>
+  <rect x="20" y="16" width="3" height="1" fill="#777"/>
+
+  <!-- Telo -->
+  <rect x="10" y="19" width="12" height="8" fill="#333"/>
+
+  <!-- Noge -->
+  <rect x="11" y="27" width="2" height="3" fill="#222"/>
+  <rect x="19" y="27" width="2" height="3" fill="#222"/>
+
+  <!-- Rep -->
+  <rect x="22" y="21" width="5" height="2" fill="#222"/>
+</symbol>
+
+    <!-- Cat 2: walking -->
+   <!-- Frenči: French Bulldog -->
+<!-- Frenči: French Bulldog (pixel art) -->
+<!-- Frenči: French Bulldog -->
+<symbol id="cat2" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <!-- Uši (velike i uspravne) -->
+  <rect x="7" y="3" width="4" height="6" fill="#4a4a4a"/>
+  <rect x="21" y="3" width="4" height="6" fill="#4a4a4a"/>
+
+  <!-- Glava (široka) -->
+  <rect x="8" y="8" width="16" height="10" fill="#6b6b6b"/>
+
+  <!-- Oči -->
+  <rect x="11" y="12" width="2" height="2" fill="#000"/>
+  <rect x="19" y="12" width="2" height="2" fill="#000"/>
+
+  <!-- Njuška (tamna maska) -->
+  <rect x="12" y="15" width="8" height="4" fill="#3c3c3c"/>
+  <!-- Nos -->
+  <rect x="15" y="16" width="2" height="2" fill="#000"/>
+  
+  <!-- Jezik (ružičast) -->
+  <rect x="14" y="19" width="4" height="2" fill="#ff6b6b"/>
+
+  <!-- Telo (zdepasto) -->
+  <rect x="9" y="20" width="14" height="7" fill="#6b6b6b"/>
+
+  <!-- Prednje noge -->
+  <rect x="10" y="27" width="3" height="3" fill="#4a4a4a"/>
+  <rect x="18" y="27" width="3" height="3" fill="#4a4a4a"/>
+
+  <!-- Zadnje noge (kraće) -->
+  <rect x="12" y="27" width="2" height="2" fill="#3c3c3c"/>
+  <rect x="17" y="27" width="2" height="2" fill="#3c3c3c"/>
+
+  <!-- Rep (kratak) -->
+  <rect x="22" y="24" width="2" height="2" fill="#4a4a4a"/>
+</symbol>
+  </svg>
+
+  <script>
+    // === CONFIG ===
+    const CALENDLY_LINK = "https://calendly.com/kacaivkovic09/kafica"; // <-- izmeni ovde
+
+    const quiz = document.getElementById('quiz');
+    const bar  = document.getElementById('bar');
+    const countEl = document.getElementById('count');
+    const cta  = document.getElementById('cta');
+    const calendly = document.getElementById('calendly');
+
+    calendly.href = CALENDLY_LINK;
+
+    // Track answered state per question
+    const state = { 1:null, 2:null, 3:null };
+
+    function updateProgress(){
+      const answered = Object.values(state).filter(v => v !== null).length;
+      const pct = Math.round((answered/3)*100);
+      bar.style.width = pct + '%';
+      countEl.textContent = answered;
+      if(answered === 3){
+        cta.classList.add('show');
+        confettiCats();
+      }
+    }
+
+    // Button interactions
+    quiz.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button.pixel-btn');
+      if(!btn) return;
+      const article = btn.closest('article.q');
+      const qid = Number(article.dataset.q);
+      const val = btn.dataset.answer;
+
+      // set visual states
+      article.querySelectorAll('.pixel-btn').forEach(b=>{
+        b.removeAttribute('data-yes');
+        b.removeAttribute('data-no');
+      });
+      btn.setAttribute(val === 'yes' ? 'data-yes' : 'data-no', 'true');
+
+      state[qid] = val;
+      updateProgress();
+    });
+
+    // Tiny confetti made of cat pixels
+    function confettiCats(){
+      for(let i=0;i<20;i++) setTimeout(spawn, i*60);
+      function spawn(){
+        const s = document.createElement('div');
+        s.style.position='fixed';
+        s.style.left = Math.random()*100 + 'vw';
+        s.style.top = '-40px';
+        s.style.width='28px'; s.style.height='28px';
+        s.style.zIndex=9; s.style.pointerEvents='none';
+        s.innerHTML = `<svg width="28" height="28" viewBox="0 0 32 32"><use href="#${Math.random()>0.5?'cat1':'cat2'}"/></svg>`;
+        document.body.appendChild(s);
+        const endY = window.innerHeight + 60;
+        const rot = (Math.random()*360)|0;
+        s.animate([
+          { transform:`translateY(0) rotate(0deg)` },
+          { transform:`translateY(${endY}px) rotate(${rot}deg)` }
+        ],{ duration: 1800 + Math.random()*1200, easing: 'cubic-bezier(.2,.8,.2,1)' }).onfinish = ()=> s.remove();
+      }
+    }
+
+    // init
+    updateProgress();
+  </script>
+</body>
+</html>
